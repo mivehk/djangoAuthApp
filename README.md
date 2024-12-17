@@ -9,22 +9,21 @@ This project demonstrates a Django-based authentication system engaging user reg
 - Login and logout functionality
 - Restricted dashboard access using `login_required`
 - Custom templates for authentication views (Bootstrap-ready)
-- SQLite database for local development
 
 ---
 
 ## **Getting Started**
 
-### **1. Install Django and Create the Project**
+### **1. Install Django and create your project**
 Install Django and set up the project directory:
 ```bash
 python3 -m pip install django
 django-admin startproject "your-project-name"
 cd myproject
-python manage.py startapp "your-app-name, e.g., djAuthApp"
+python3 manage.py startapp "your-app-name, e.g., djAuthApp"
 ```
 
-### **2. Enable the App and verify BASE_DIR variable (e.g., pathlib )**
+### **2. Enable the App and verify BASE_DIR variable (e.g., by pathlib library )**
 ```bash
 INSTALLED_APPS = [ 
     'django.contrib.admin', 
@@ -37,7 +36,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-### **3. Include URLs for Project Authentication**
+### **3. Include URLs for your authetication project **
 ```bash
 from django.contrib import admin
 from django.urls import path , include
@@ -48,7 +47,7 @@ urlpatterns = [
 ]
 ```
 
-### **4. Create Custom Login and Logout Templates (e.g., using bootstrap templates)**
+### **4. Create directory path and custom templates in your application directory structure (e.g., using bootstrap templates)**
 ``` bash
 │   ├── templates
 │   │   ├── base.html
@@ -62,21 +61,7 @@ update TEMPLATES section of django settings for the directory path of templates
 'DIRS': [BASE_DIR / 'templates'],
 ```
 
-### **5. Add Django’s Authentication Views for the application URLs**
-```bash
-from django.urls import path
-from django.contrib.auth import views as auth_views
-from . import views
-
-urlpatterns = [
-    path('register/', views.register, name='register'),  
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'), 
-    path('logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),  
-    path('dashboard/', views.dashboard, name='dashboard'), 
-]
-```
-
-### **6- Create Restricted login_required dashboard view and another one for register**
+### **5- Create a register view using built-in django form & your restricted (login_required) dashboard view for your application**
 
 ```bash
 from django.shortcuts import render, redirect
@@ -86,7 +71,7 @@ from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 @login_required
 def dashboard(request):
-	return render(request, 'registration/dashboard.html')
+    return render(request, 'registration/dashboard.html')
 
 def register(request):
     if request.method == 'POST':
@@ -100,14 +85,30 @@ def register(request):
 
 ```
 
-###**7- Include new routes into settings**
+### **6. Add application's URLs and configure their views**
+```bash
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views
+from django.views.generic import RedirectView
+
+urlpatterns = [
+    path('', RedirectView.as_view(pattern_name='register', permanent=False)),
+    path('register/', views.register, name='register'),  
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'), 
+    path('logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),  
+    path('dashboard/', views.dashboard, name='dashboard'), 
+]
+```
+
+###**7- Include redirection routes in the settings file**
 ```bash
 LOGIN_REDIRECT_URL = '/djAuthApp/dashboard/'
 LOGOUT_REDIRECT_URL = '/djAuthApp/login'
 LOGIN_URL = '/djAuthApp/login'
 ```
 
-###**8- Generate migration files and apply them on db**
+###**8- Generate migration files and apply them on your local SQLite db**
 ```bash
 python manage.py makemigrations
 python manage.py migrate
