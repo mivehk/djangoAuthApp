@@ -1,6 +1,6 @@
 # Django Authentication Project
 
-This project demonstrates a Django-based authentication system with features like user registration, login, logout, and a restricted dashboard for authenticated users. It also uses custom templates for better user experience.
+This project demonstrates a Django-based authentication system engaging user registration, login, logout, and a restricted dashboard for authenticated users. It also uses custom view templates for better user experience.
 
 ---
 
@@ -19,9 +19,9 @@ This project demonstrates a Django-based authentication system with features lik
 Install Django and set up the project directory:
 ```bash
 python3 -m pip install django
-django-admin startproject myproject
+django-admin startproject "your-project-name"
 cd myproject
-python manage.py startapp accounts
+python manage.py startapp "your-app-name, e.g., djAuthApp"
 ```
 
 ### **2. Enable the App and verify BASE_DIR variable (e.g., pathlib )**
@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions', 
     'django.contrib.messages', 
     'django.contrib.staticfiles',
-    'accounts',  # Your custom app for authentication 
+    'djAuthApp',  # Your custom app for authentication 
 ]
 ```
 
@@ -44,7 +44,7 @@ from django.urls import path , include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('djAuthApp/', include('djAuthApp.urls')),  # Include djAuthApp's URLs
+    path('djAuthApp/', include('djAuthApp.urls')),  # Include child URLs within your djAuthApp's application
 ]
 ```
 
@@ -58,7 +58,7 @@ urlpatterns = [
 │   │       ├── logout.html
 │   │       └── register.html
 
-update TEMPLATES section within django settings for the directory path of templates
+update TEMPLATES section of django settings for the directory path of templates
 'DIRS': [BASE_DIR / 'templates'],
 ```
 
@@ -69,17 +69,17 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('register/', views.register, name='register'),  # User registration
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),  # Login view
-    path('logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),  # Logout view
-    path('dashboard/', views.dashboard, name='dashboard'),  # Dashboard for logged-in users
+    path('register/', views.register, name='register'),  
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'), 
+    path('logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),  
+    path('dashboard/', views.dashboard, name='dashboard'), 
 ]
 ```
 
 ### **6- Create Restricted login_required dashboard view and another one for register**
 
 ```bash
-from django.shortcuts import render , redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 
