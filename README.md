@@ -57,8 +57,8 @@ urlpatterns = [
 │   │       ├── logout.html
 │   │       └── register.html
 
-update TEMPLATES section of django settings for the directory path of templates
-'DIRS': [BASE_DIR / 'templates'],
+update TEMPLATES section of django settings to looks for app specific templates
+'APP_DIRS': True,
 ```
 
 ### **5- Create a register view using built-in django form & your restricted (login_required) dashboard view for your application**
@@ -88,15 +88,15 @@ def register(request):
 ### **6. Add application's URLs and configure their views**
 ```bash
 from django.urls import path
-from django.contrib.auth import views as auth_views
+from django.contrib.auth import views as defaultViews
 from . import views
-from django.views.generic import RedirectView
+
 
 urlpatterns = [
-    path('', RedirectView.as_view(pattern_name='register', permanent=False)),
+    path('', defaultViews.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('register/', views.register, name='register'),  
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'), 
-    path('logout/', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),  
+    path('login/', defaultViews.LoginView.as_view(template_name='registration/login.html'), name='login'), 
+    path('logout/', defaultViews.LogoutView.as_view(template_name='registration/logout.html'), name='logout'),  
     path('dashboard/', views.dashboard, name='dashboard'), 
 ]
 ```
