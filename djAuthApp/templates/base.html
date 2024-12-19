@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My App{% endblock %}</title>
+    <title>{% block title %}django Authentication App{% endblock %}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,11 +43,11 @@
         }
 
         .active {
-            background-color: #1abc9c;
+            background-color: #d6b962;
         }
         footer {
             margin-top: 40px;
-            background-color: #343a40;
+            background-color: #197adb;
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -57,9 +57,9 @@
 <body>
     <div class="sidebar">
         <h2 style="text-align: center;">Authentication Testing WebApp</h2>
-        <a href="{% url 'dashboard' %}" class="{% if request.path == '/myAuthApp/dashboard/' %}active{% endif %}">Dashboard</a>
-        <a href="{% url 'register' %}" class="{% if request.path == '/myAuthApp/register/' %}active{% endif %}">Register</a>
-        <a href="{% url 'login' %}" class="{% if request.path == '/myAuthApp/login/' %}active{% endif %}">Login</a>
+        <!--<a href="{% url 'dashboard' %}" class="{% if request.path == '/djAuthApp/dashboard/' %}active{% endif %}">Dashboard</a> -->
+        <a href="{% url 'register' %}" class="{% if request.path == '/djAuthApp/register/' %}active{% endif %}">Register</a>
+        <a href="{% url 'login' %}" class="{% if request.path == '/djAuthApp/login/' %}active{% endif %}">Login</a>
         <a href="{% url 'logout' %}">Logout</a>
     </div>
 
