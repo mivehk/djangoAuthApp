@@ -5,6 +5,18 @@
 {% block content %}
 <h2>Welcome, {{ user.username }}!</h2>
 <p>This is your dashboard.</p>
+
+
+
+<!-- Logout via POST -->
+<form action="{% url 'logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Logout</button>
+</form>
+
+<!-- Logout via GET (if allowed) 
+<a href="{% url 'logout' %}">Logout</a> -->
+
 {% endblock %}
 
 
